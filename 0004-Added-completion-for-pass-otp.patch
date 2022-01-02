@@ -1,0 +1,99 @@
+From 96742a68eec625d4a666255330585235122724ae Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20A=2E=20Hult=C3=A9n?= <jonas@sldr.se>
+Date: Sun, 2 Jan 2022 16:49:16 +0100
+Subject: [PATCH 4/4] Added completion for pass-otp
+
+---
+ plugins/pass-otp/_pass-otp | 57 ++++++++++++++++++++++++++++++++++++++
+ plugins/pass/_pass         |  4 +++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 plugins/pass-otp/_pass-otp
+
+diff --git a/plugins/pass-otp/_pass-otp b/plugins/pass-otp/_pass-otp
+new file mode 100644
+index 00000000..cb79bd3e
+--- /dev/null
++++ b/plugins/pass-otp/_pass-otp
+@@ -0,0 +1,57 @@
++#compdef pass
++#autoload
++
++# Copyright (C) https://github.com/tadfisher/pass-otp contributors
++# Ported to ZSH by Jonas A. "sldr" Hultén
++
++PASSWORD_STORE_EXTENSION_COMMANDS+=(otp)
++
++_pass-otp () {
++  local cmd
++  if (( CURRENT > 2 )); then
++    # Do what the other guy did
++    cmd=${words[2]}
++    # Set the subcommand context
++    curcontext="${curcontext%:*:*}:pass-otp-$cmd"
++    # Narrow the range of words again
++    (( CURRENT-- ))
++    shift words
++    # Do the actual completion
++    case "${cmd}" in
++      append|insert)
++        _arguments : \
++          "-e[echo password to console]" \
++          "--echo[echo password to console]" \
++          "-f[force insertion]" \
++          "--force[force insertion]"
++        _pass_complete_entries
++        ;;
++      uri)
++        _arguments : \
++          "-c[put it on the clipboard]" \
++          "--clip[put it on the clipboard]" \
++          "-q[display a qr code]" \
++          "--qr[display a qr code]"
++        _pass_complete_entries
++        ;;
++      validate)
++        _pass_complete_entries
++        ;;
++      *)
++        _pass_cmd_show
++      ;;
++    esac
++  else
++    local -a subcommands
++    subcommands=(
++      "insert:Insert a new OTP URI"
++      "append:Appends an OTP URI to an existing password file"
++      "uri:Display the URI stored in the password file"
++      "validate:Validates a given URI"
++    )
++    _describe -t commands 'pass otp' subcommands
++    _pass_cmd_show
++  fi
++}
++
++_pass-otp
+diff --git a/plugins/pass/_pass b/plugins/pass/_pass
+index d911e122..cd8804c0 100644
+--- a/plugins/pass/_pass
++++ b/plugins/pass/_pass
+@@ -64,6 +64,9 @@ _pass () {
+ 					"--force[force rename]"
+ 					_pass_complete_entries_with_subdirs
+ 				;;
++			otp)
++				_pass-otp
++				;;
+ 			rm)
+ 				_arguments : \
+ 					"-f[force deletion]" \
+@@ -102,6 +105,7 @@ _pass () {
+ 			"mv:Rename the password"
+ 			"cp:Copy the password"
+ 			"rm:Remove the password"
++			"otp:Handle one-time-passwords"
+ 			"git:Call git on the password store"
+ 			"version:Output version information"
+ 			"help:Output help message"
+-- 
+2.34.1
+

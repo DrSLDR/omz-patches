@@ -1,0 +1,52 @@
+From 1a86eb24ac50dccc0646e7519da644ea9dc17cb1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20A=2E=20Hult=C3=A9n?= <jonas@sldr.se>
+Date: Sun, 1 Dec 2019 14:01:31 +0100
+Subject: [PATCH 1/4] Added my own despicable theme
+
+---
+ themes/sldr-booyah.zsh-theme | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 themes/sldr-booyah.zsh-theme
+
+diff --git a/themes/sldr-booyah.zsh-theme b/themes/sldr-booyah.zsh-theme
+new file mode 100644
+index 00000000..fb71ee36
+--- /dev/null
++++ b/themes/sldr-booyah.zsh-theme
+@@ -0,0 +1,33 @@
++# ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
++local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
++
++if [[ $UID -eq 0 ]]; then
++    local user_host='%{$terminfo[bold]$fg[red]%}%n@%m %{$reset_color%}'
++    local user_symbol='#'
++else
++    local user_host='%{$terminfo[bold]$fg[green]%}%n@%m %{$reset_color%}'
++    local user_symbol='$'
++fi
++
++local current_dir='%{$terminfo[bold]$fg[blue]%}%~ %{$reset_color%}'
++local git_branch='$(git_prompt_info)'
++local rvm_ruby='$(ruby_prompt_info)'
++local venv_prompt='$(virtualenv_prompt_info)'
++local timestamp='%{$fg_bold[white]%}%D{[%X]}%{$reset_color%} '
++
++ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
++
++PROMPT="╭─${user_host}${timestamp}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
++╰─%B${user_symbol}%b "
++RPROMPT="%B${return_code}%b"
++
++ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
++ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
++
++ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
++ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
++
++ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[green]%}‹"
++ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="› %{$reset_color%}"
++ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
++ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+-- 
+2.34.1
+

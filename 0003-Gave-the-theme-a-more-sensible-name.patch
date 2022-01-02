@@ -1,0 +1,17 @@
+From eba27daab158b6f54751140d5fb81c63ff46d091 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20A=2E=20Hult=C3=A9n?= <jonas@sldr.se>
+Date: Tue, 24 Nov 2020 12:13:51 +0100
+Subject: [PATCH 3/4] Gave the theme a more sensible name
+
+---
+ themes/{sldr-booyah.zsh-theme => sldr-crimes.zsh-theme} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename themes/{sldr-booyah.zsh-theme => sldr-crimes.zsh-theme} (100%)
+
+diff --git a/themes/sldr-booyah.zsh-theme b/themes/sldr-crimes.zsh-theme
+similarity index 100%
+rename from themes/sldr-booyah.zsh-theme
+rename to themes/sldr-crimes.zsh-theme
+-- 
+2.34.1
+
