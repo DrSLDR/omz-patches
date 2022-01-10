@@ -1,0 +1,67 @@
+From 87288260b1312c5329c3bd4548c989bf4c29bf94 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonas=20A=2E=20Hult=C3=A9n?= <jonas@sldr.se>
+Date: Mon, 10 Jan 2022 21:03:29 +0100
+Subject: [PATCH 5/5] Added pass update
+
+---
+ plugins/pass-update/_pass-update | 25 +++++++++++++++++++++++++
+ plugins/pass/_pass               |  4 ++++
+ 2 files changed, 29 insertions(+)
+ create mode 100644 plugins/pass-update/_pass-update
+
+diff --git a/plugins/pass-update/_pass-update b/plugins/pass-update/_pass-update
+new file mode 100644
+index 00000000..9744d482
+--- /dev/null
++++ b/plugins/pass-update/_pass-update
+@@ -0,0 +1,25 @@
++#compdef pass
++#autoload
++
++# Copyright (C) https://github.com/roddhjav/pass-update contributors
++# Ported to ZSH by Jonas A. "sldr" Hultén
++
++PASSWORD_STORE_EXTENSION_COMMANDS+=(update)
++
++_pass-update () {
++    _arguments : \
++        {-h,--help}'[display help information]' \
++        {-V,--version}'[display version information]' \
++        {-c,--clip}'[write the password to the clipboard]' \
++        {-n,--no-symbols}'[do not use any non-alphanumeric characters]' \
++        {-l,--length}'[provide a password length]' \
++        {-p,--provide}'[let the user specify a password by hand]' \
++        {-m,--multiline}'[update a multiline password]' \
++        {-i,--include}'[only update the password that match a regex]' \
++        {-e,--exclude}'[do not update password that macth a regex]' \
++        {-E,--edit}'[edit the password using the default editor]' \
++        {-f,--force}'[force update]'
++    _pass_complete_entries_with_subdirs
++}
++
++_pass-update
+diff --git a/plugins/pass/_pass b/plugins/pass/_pass
+index cd8804c0..3c0ed8b9 100644
+--- a/plugins/pass/_pass
++++ b/plugins/pass/_pass
+@@ -58,6 +58,9 @@ _pass () {
+ 					"--in-place[replace first line]"
+ 				_pass_complete_entries_with_subdirs
+ 				;;
++			update)
++				_pass-update
++				;;
+ 			cp|copy|mv|rename)
+ 				_arguments : \
+ 					"-f[force rename]" \
+@@ -101,6 +104,7 @@ _pass () {
+ 			"show:Decrypt and print a password"
+ 			"insert:Insert a new password"
+ 			"generate:Generate a new password using pwgen"
++			"update:Update passwords"
+ 			"edit:Edit a password with \$EDITOR"
+ 			"mv:Rename the password"
+ 			"cp:Copy the password"
+-- 
+2.34.1
+
